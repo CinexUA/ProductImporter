@@ -1,0 +1,55 @@
+version: '3.5'
+
+services:
+  nginx:
+    container_name: pi-nginx
+    image: nginx:1.13
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www/html
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./logs/nginx/:/var/log/nginx
+    depends_on:
+      - php
+    networks:
+      - appnet
+
+  php:
+    container_name: pi-php
+    build:
+      context: .
+      dockerfile: ./bin/php/Dockerfile
+    volumes:
+      - ./src:/var/www/html
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+    networks:
+      - appnet
+    depends_on:
+      - mariadb
+
+  mariadb:
+    container_name: pi-mariadb
+    image: mariadb:10.4
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: pi-db
+      MYSQL_USER: pi-user
+    ports:
+      - 3466:3306
+    networks:
+      - appnet
+
+
+volumes:
+  mariadb-data:
+    driver: local
+
+
+networks:
+  appnet:
+    driver: bridge
