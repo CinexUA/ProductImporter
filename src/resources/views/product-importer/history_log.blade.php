@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('breadcrumbs')
-    {{ Breadcrumbs::render('product-importer.history') }}
+    {{ Breadcrumbs::render('product-importer.history.log', $historyLog) }}
 @endsection
 
 @section('content')
