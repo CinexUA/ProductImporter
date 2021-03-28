@@ -17,8 +17,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    @toastr_css
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @toastr_css
 </head>
 <body>
     <div id="app">
@@ -59,6 +59,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        {{ __('Dashboard') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -77,11 +80,25 @@
         </nav>
 
         <main class="py-4">
+            @if(View::hasSection('breadcrumbs'))
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 mb-2">
+                        @yield('breadcrumbs')
+                    </div>
+                </div>
+            </div>
+            @endif
             @yield('content')
         </main>
+    </div>
+
+    <div id="loader" class="loader">
+        <img src="{{asset('/images/rolling-loader.gif')}}" alt="loader">
     </div>
 </body>
 @jquery
 @toastr_js
 @toastr_render
+<script src="{{ asset('js/scripts.js') }}"></script>
 </html>
