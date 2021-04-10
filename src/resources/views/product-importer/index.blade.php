@@ -13,10 +13,6 @@
 
                 <div class="card-body">
 
-                    <p>
-                        <a href="{{route('product-importer.history')}}">{{__('History of imports')}}</a>
-                    </p>
-
                     {!! Form::open(['route' => ['product-importer.store'], 'files' => true]) !!}
 
                     <div class="form-group">
